@@ -3,6 +3,10 @@ package challenge
 type Challenge struct {
 }
 
+func NewChallenge() Challenge {
+	return Challenge{}
+}
+
 func GenerateNewChallenge() Challenge {
 	return Challenge{}
 }
@@ -16,4 +20,8 @@ func NewAnswer() Answer {
 
 func (c *Challenge) CheckAnswer(answer Answer) bool {
 	return true
+}
+
+func (c *Challenge) FindAnswer() (*Answer, error) {
+	return &Answer{}, nil
 }
