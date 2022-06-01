@@ -4,9 +4,11 @@ import (
 	quotesrepo "github.com/sidyakina/word-of-wisdom/internal/server/pkg/quotes-repo"
 	"github.com/sidyakina/word-of-wisdom/internal/server/pkg/tcp"
 	"log"
+	"math/rand"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 )
 
 func main() {
@@ -15,7 +17,11 @@ func main() {
 		log.Panicf("failed to parse config: %v", err)
 	}
 
-	quotesRepo := quotesrepo.New()
+	rand.Seed(time.Now().UnixNano())
+	quotesRepo, err := quotesrepo.New(cfg.QuotesFilePath)
+	if err != nil {
+		log.Panicf("failed to init quotes repo: %v", err)
+	}
 
 	tcpServer := tcp.New(quotesRepo)
 

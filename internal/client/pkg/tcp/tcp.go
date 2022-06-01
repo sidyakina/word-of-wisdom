@@ -3,6 +3,7 @@ package tcp
 import (
 	"bufio"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/sidyakina/word-of-wisdom/pkg/server/api"
 	messagetype "github.com/sidyakina/word-of-wisdom/pkg/server/message-type"
@@ -74,7 +75,7 @@ func (c *Client) readMessages() {
 		c.messages <- scanner.Bytes()
 	}
 
-	if err := scanner.Err(); err != nil {
+	if err := scanner.Err(); err != nil && !errors.Is(err, net.ErrClosed) {
 		log.Printf("scanner.Err: %v", err)
 	} else {
 		log.Printf("connection was closed")

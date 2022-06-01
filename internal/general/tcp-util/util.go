@@ -9,7 +9,7 @@ import (
 )
 
 func SendMessage(conn net.Conn, messageType string, rawPayload any) error {
-	fmt.Printf("sending message with type %v and payload %+v", messageType, rawPayload)
+	log.Printf("sending message with type %v and payload %+v", messageType, rawPayload)
 
 	var payload []byte
 	var err error
@@ -31,7 +31,7 @@ func SendMessage(conn net.Conn, messageType string, rawPayload any) error {
 		return fmt.Errorf("failed to marshal message: %w", err)
 	}
 
-	_, err = conn.Write(data)
+	_, err = conn.Write(append(data, byte('\n')))
 	if err != nil {
 		return fmt.Errorf("failed to write message: %w", err)
 	}

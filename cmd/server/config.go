@@ -1,9 +1,13 @@
 package main
 
-import "github.com/caarlos0/env/v6"
+import (
+	"errors"
+	"github.com/caarlos0/env/v6"
+)
 
 type Config struct {
-	TCPPort int32 `env:"TCP_PORT" envDefault:"8080"`
+	TCPPort        int32  `env:"TCP_PORT" envDefault:"8080"`
+	QuotesFilePath string `env:"QUOTES_FILE_PATH" envDefault:"internal/server/pkg/quotes-repo/data/quotes.txt"`
 }
 
 func parseConfig() (*Config, error) {
@@ -12,6 +16,10 @@ func parseConfig() (*Config, error) {
 	err := env.Parse(cfg)
 	if err != nil {
 		return nil, err
+	}
+
+	if cfg.QuotesFilePath == "" {
+		return nil, errors.New("empty quotes file path")
 	}
 
 	return cfg, nil
