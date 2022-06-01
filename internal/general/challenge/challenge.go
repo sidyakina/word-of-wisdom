@@ -1,27 +1,25 @@
 package challenge
 
+import "math/rand"
+
 type Challenge struct {
+	Challenge string
 }
 
-func NewChallenge() Challenge {
-	return Challenge{}
+func NewChallenge(str string) Challenge {
+	return Challenge{Challenge: str}
 }
 
 func GenerateNewChallenge() Challenge {
-	return Challenge{}
+	return Challenge{Challenge: generateRandomString(lenChallengeString)}
 }
 
-type Answer struct {
-}
+func generateRandomString(lenStr int) string {
+	str := ""
+	for i := 0; i < lenStr; i++ {
+		k := rand.Intn(len(symbols))
+		str += string(symbols[k])
+	}
 
-func NewAnswer() Answer {
-	return Answer{}
-}
-
-func (c *Challenge) CheckAnswer(answer Answer) bool {
-	return true
-}
-
-func (c *Challenge) FindAnswer() (*Answer, error) {
-	return &Answer{}, nil
+	return str
 }

@@ -23,17 +23,15 @@ func (s *Server) handleChallengeResponse(client *Client, responsePayload json.Ra
 		return
 	}
 
-	answer := challenge.NewAnswer()
-
-	if !client.currentChallenge.CheckAnswer(answer) {
-		log.Printf("chanllenge %+v: answer %+v is wrong", client.currentChallenge, answer)
+	if !client.currentChallenge.CheckAnswer(response.Answer) {
+		log.Printf("chanllenge %+v: answer %+v is wrong", client.currentChallenge, response.Answer)
 
 		client.currentChallenge = nil // challenge is failed
 
 		return
 	}
 
-	log.Printf("chanllenge %+v: answer %+v is right", client.currentChallenge, answer)
+	log.Printf("chanllenge %+v: answer %+v is right", client.currentChallenge, response.Answer)
 
 	client.currentChallenge = nil
 
@@ -70,7 +68,7 @@ func (s *Server) handleGetQuote(client *Client) {
 
 	log.Printf("challenge for client: %+v", currentChallenge)
 
-	payload := api.ChallengeRequestPayload{}
+	payload := api.ChallengeRequestPayload{Challenge: currentChallenge.Challenge}
 
 	err := client.sendMessage(messagetype.Challenge, payload)
 	if err != nil {

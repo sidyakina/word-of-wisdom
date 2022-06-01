@@ -1,9 +1,9 @@
 package api
 
 type ChallengeRequestPayload struct {
-	A1 int `json:"a1"`
+	Challenge string `json:"challenge"`
 }
 
 type ChallengeResponsePayload struct {
-	A2 int `json:"a2"`
+	Answer string `json:"answer"`
 }

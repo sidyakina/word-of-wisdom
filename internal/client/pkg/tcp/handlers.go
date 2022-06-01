@@ -18,7 +18,7 @@ func (c *Client) handleChallengeRequest(requestPayload json.RawMessage) error {
 		return fmt.Errorf("failed to unmarshal challenge request %s: %w", requestPayload, err)
 	}
 
-	currentChallenge := challenge.NewChallenge()
+	currentChallenge := challenge.NewChallenge(payload.Challenge)
 	log.Printf("current challenge %+v", currentChallenge)
 
 	answer, err := currentChallenge.FindAnswer()
@@ -26,9 +26,9 @@ func (c *Client) handleChallengeRequest(requestPayload json.RawMessage) error {
 		return fmt.Errorf("challenge failed: %w", err)
 	}
 
-	log.Printf("answer for challenge: %+v", answer)
+	log.Printf("answer for challenge: %v", answer)
 
-	responsePayload := api.ChallengeResponsePayload{}
+	responsePayload := api.ChallengeResponsePayload{Answer: answer}
 
 	return tcputil.SendMessage(c.conn, messagetype.Challenge, responsePayload)
 }
