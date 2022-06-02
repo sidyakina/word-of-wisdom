@@ -7,5 +7,5 @@ const (
 	lenChallengeString = 20
 	lenAnswerString    = 10
 	numberZeroBits     = 20
-	generationTimeout  = 2 * time.Second
+	generationTimeout  = 20 * time.Second
 )

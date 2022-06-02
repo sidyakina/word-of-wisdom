@@ -4,7 +4,6 @@ import (
 	"crypto/sha1"
 	"crypto/sha256"
 	"fmt"
-	"log"
 	"math/rand"
 	"testing"
 	"time"
@@ -15,8 +14,8 @@ func Test_Algorithms(t *testing.T) {
 	n := 20
 
 	for lenServerString := 10; lenServerString <= 40; lenServerString = lenServerString + 10 {
-		t1, t2 := time.Duration(0), time.Duration(0)
-		p1, p2 := 0, 0
+		var t1, t2, t1max, t2max time.Duration
+		var p1, p2, p1max, p2max int
 
 		for k := 0; k < n; k++ {
 			serverString := generateRandomString(lenServerString)
@@ -33,10 +32,18 @@ func Test_Algorithms(t *testing.T) {
 
 				if d[0] == '0' && d[1] == '0' && d[2] == '0' && d[3] == '0' && d[4] == '0' {
 					p1 += i
+					if i > p1max {
+						p1max = i
+					}
+
 					break
 				}
 			}
-			t1 += time.Since(time1)
+			t := time.Since(time1)
+			t1 += t
+			if t > t1max {
+				t1max = t
+			}
 
 			time2 := time.Now()
 			for i := 0; ; i++ {
@@ -48,15 +55,25 @@ func Test_Algorithms(t *testing.T) {
 
 				if d[0] == '0' && d[1] == '0' && d[2] == '0' && d[3] == '0' && d[4] == '0' {
 					p2 += i
+					if i > p2max {
+						p2max = i
+					}
+
 					break
 				}
 			}
-			t2 += time.Since(time2)
+			t = time.Since(time2)
+			t2 += t
+			if t > t2max {
+				t2max = t
+			}
 		}
 
-		log.Printf("len(server string) = %v", lenServerString)
-		log.Printf("sha1: total time %v, avg time: %v, avg attempts: %v", t1, t1/time.Duration(n), p1/n)
-		log.Printf("sha2: total time %v, avg time: %v, avg attempts: %v\n", t2, t2/time.Duration(n), p2/n)
+		fmt.Printf("\nlen(server string) = %v", lenServerString)
+		fmt.Printf("\nsha1: \ntotal time %v \navg time: %v, avg attempts: %v", t1, t1/time.Duration(n), p1/n)
+		fmt.Printf("\nmax time %v, max attempts: %v", t1max, p1max)
+		fmt.Printf("\nsha2: \ntotal time %v, \navg time: %v, avg attempts: %v", t2, t2/time.Duration(n), p2/n)
+		fmt.Printf("\nmax time %v, max attempts: %v\n", t2max, p2max)
 	}
 }
 
@@ -72,18 +89,49 @@ func generateRandomString(lenStr int) string {
 	return str
 }
 
-//2022/06/02 21:04:12 len(server string) = 10
-//2022/06/02 21:04:12 sha1: total time 13.114112559s, avg time: 655.705627ms, avg attempts: 825302
-//2022/06/02 21:04:12 sha2: total time 20.147067551s, avg time: 1.007353377s, avg attempts: 1126127
+/*
+len(server string) = 10
+sha1:
+total time 13.285327532s,
+avg time: 664.266376ms, avg attempts: 851535
+max time 1.733282266s, max attempts: 2221810
+sha2:
+total time 20.339648831s,
+avg time: 1.016982441s, avg attempts: 1144626
+max time 3.351335874s, max attempts: 3751754
 
-//2022/06/02 21:04:59 len(server string) = 20
-//2022/06/02 21:04:59 sha1: total time 23.480415041s, avg time: 1.174020752s, avg attempts: 1487351
-//2022/06/02 21:04:59 sha2: total time 24.268615528s, avg time: 1.213430776s, avg attempts: 1364958
+len(server string) = 20
+sha1:
+total time 16.205209778s,
+avg time: 810.260488ms, avg attempts: 1043763
+max time 4.598956506s, max attempts: 5943154
+sha2:
+total time 15.566848979s,
+avg time: 778.342448ms, avg attempts: 879487
+max time 3.450856599s, max attempts: 3878805
 
-//2022/06/02 21:05:32 len(server string) = 30
-//2022/06/02 21:05:32 sha1: total time 14.642746618s, avg time: 732.13733ms, avg attempts: 837336
-//2022/06/02 21:05:32 sha2: total time 17.441058231s, avg time: 872.052911ms, avg attempts: 900725
+len(server string) = 30
+sha1:
+total time 16.468408262s,
+avg time: 823.420413ms, avg attempts: 971582
+max time 2.948801529s, max attempts: 3425847
+sha2:
+total time 23.025300398s,
+avg time: 1.151265019s, avg attempts: 1211975
+max time 4.54900777s, max attempts: 4839195
 
-//2022/06/02 21:06:20 len(server string) = 40
-//2022/06/02 21:06:20 sha1: total time 24.163660117s, avg time: 1.208183005s, avg attempts: 1358091
-//2022/06/02 21:06:20 sha2: total time 23.917443648s, avg time: 1.195872182s, avg attempts: 1208527
+len(server string) = 40
+sha1:
+total time 21.759263977s,
+avg time: 1.087963198s, avg attempts: 1285492
+max time 3.349470774s, max attempts: 3883787
+sha2:
+total time 23.058677067s,
+avg time: 1.152933853s, avg attempts: 1201996
+max time 3.576479828s, max attempts: 3801497
+--- PASS: Test_Algorithms (149.71s)
+PASS
+
+Process finished with the exit code 0
+
+*/
