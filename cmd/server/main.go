@@ -1,8 +1,8 @@
 package main
 
 import (
-	quotesrepo "github.com/sidyakina/word-of-wisdom/internal/server/pkg/quotes-repo"
-	"github.com/sidyakina/word-of-wisdom/internal/server/pkg/tcp"
+	"github.com/sidyakina/word-of-wisdom/internal/server/quotes-repo"
+	"github.com/sidyakina/word-of-wisdom/internal/server/tcp"
 	"log"
 	"math/rand"
 	"os"

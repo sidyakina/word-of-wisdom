@@ -7,8 +7,8 @@ import (
 )
 
 type Config struct {
-	TCPServerAddress      string        `env:"TCP_SERVER_ADDRESS" envDefault:"localhost:8080"`
-	WaitingMessageTimeout time.Duration `env:"WAITING_MESSAGE_TIMEOUT" envDefault:"6s"`
+	TCPServerAddress      string        `env:"TCP_SERVER_ADDRESS"`
+	WaitingMessageTimeout time.Duration `env:"WAITING_MESSAGE_TIMEOUT" envDefault:"2s"`
 	NumberQuotes          int           `env:"NUMBER_QUOTES" envDefault:"1"`
 }
 

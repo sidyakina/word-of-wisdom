@@ -19,5 +19,5 @@ start-client:
 stop-server:
 	docker rm -f word-of-wisdom-server
 
-linter:
-	sudo docker run --rm -v $(pwd):/app -w /app golangci/golangci-lint:v1.46.2 golangci-lint run -v
+unit-tests:
+	go test ./internal/...

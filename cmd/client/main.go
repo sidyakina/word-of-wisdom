@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/sidyakina/word-of-wisdom/internal/client/pkg/tcp"
+	"github.com/sidyakina/word-of-wisdom/internal/client/tcp"
 	"log"
 )
 

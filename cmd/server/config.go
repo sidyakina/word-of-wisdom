@@ -7,7 +7,7 @@ import (
 
 type Config struct {
 	TCPPort        int32  `env:"TCP_PORT" envDefault:"8080"`
-	QuotesFilePath string `env:"QUOTES_FILE_PATH" envDefault:"internal/server/pkg/quotes-repo/data/quotes.txt"`
+	QuotesFilePath string `env:"QUOTES_FILE_PATH"`
 }
 
 func parseConfig() (*Config, error) {

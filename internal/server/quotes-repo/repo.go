@@ -14,9 +14,6 @@ type Repo struct {
 }
 
 func New(filePath string) (*Repo, error) {
-	dir, err := os.Getwd()
-	log.Printf("load quotes from file: %v (current directory %v, %v)", filePath, dir, err)
-
 	file, err := os.Open(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open file: %w", err)

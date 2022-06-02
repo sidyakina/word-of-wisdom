@@ -14,6 +14,7 @@ Design and implement “Word of Wisdom” tcp server.
 14.40 ---> 16.10
 18.36 ---> 20.50
 13.00 ---> 15.10
+19.00 ---> 21.14
 
 Credentials:
 Quotes about space are taken from https://www.thefactsite.com/100-space-facts/
