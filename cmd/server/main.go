@@ -34,8 +34,8 @@ func main() {
 
 	log.Printf("tcp server started")
 
-	ch := make(chan os.Signal)
-	signal.Notify(ch, syscall.SIGINT, syscall.SIGKILL)
+	ch := make(chan os.Signal, 1)
+	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)
 
 	<-ch
 
