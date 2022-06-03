@@ -42,16 +42,3 @@ It won't take more time for one attempt (test/algorithms_test.go) but significan
 ## Credentials
 Quotes about space are taken from https://www.thefactsite.com/100-space-facts/
 
-## Time
-14.00 ---> 14.30
-15.50 ---> 16.20
-18.05 ---> 20.25
-20.50 ---> 21.30
-13.40 ---> 14.27
-14.40 ---> 16.10
-18.36 ---> 20.50
-13.00 ---> 15.10
-19.00 ---> 21.14
-21.45 ---> 22.35
-12.30 ---> 
-

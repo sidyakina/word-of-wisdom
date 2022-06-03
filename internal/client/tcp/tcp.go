@@ -45,7 +45,7 @@ func GetQuotes(serverAddress string, timeout time.Duration, numberQuotes int) {
 	for i := 1; i <= numberQuotes; i++ {
 		log.Printf("request quote number %v", i)
 
-		err = client.sendQetQuote()
+		err = client.sendGetQuote()
 		if err != nil {
 			log.Printf("failed to send qet quote request: %v", err)
 
