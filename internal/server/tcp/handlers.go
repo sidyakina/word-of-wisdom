@@ -16,7 +16,7 @@ func (s *Server) handleChallengeResponse(client *Client, responsePayload json.Ra
 	}
 
 	response := api.ChallengeResponsePayload{}
-	err := json.Unmarshal(responsePayload, &response)
+	err := response.UnmarshalJSON(responsePayload)
 	if err != nil {
 		log.Printf("failed to unmarshal challenge response payload %s: %v", responsePayload, err)
 

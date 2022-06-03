@@ -7,8 +7,16 @@ Design and implement “Word of Wisdom” tcp server.
 • After Prof Of Work verification, server should send one of the quotes from “word of wisdom” book or any other collection of the quotes.  
 • Docker file should be provided both for the server and for the client that solves the POW challenge
 
-## Credentials
-Quotes about space are taken from https://www.thefactsite.com/100-space-facts/
+## Start server and client
+ ```bash
+$ make build-all
+$ make start-all 
+ ```
+
+## Stop server
+ ```bash
+ $ make stop-server
+ ```
 
 ## Algorithm
 Algorithm based on HashCash algorithm (https://en.wikipedia.org/wiki/Hashcash) but have several differences:
@@ -26,9 +34,13 @@ Current values: N=20, M=10, K=20
 
 Value N affects number possible server strings. 
 If hackers would to prepare hashes for all possible server strings they need prepare 64^20 hashes. 
-One hash takes about 778ms in average (test/algorithms_test.go) and such preparation will take much time. 
+One hash takes about 995ms in average (test/algorithms_test.go) and such preparation will take much time. 
 If we need increase this time we can increase N. 
 It won't take more time for one attempt (test/algorithms_test.go) but significantly increase number of variants.
+
+
+## Credentials
+Quotes about space are taken from https://www.thefactsite.com/100-space-facts/
 
 ## Time
 14.00 ---> 14.30
@@ -41,5 +53,5 @@ It won't take more time for one attempt (test/algorithms_test.go) but significan
 13.00 ---> 15.10
 19.00 ---> 21.14
 21.45 ---> 22.35
-
+12.30 ---> 
 

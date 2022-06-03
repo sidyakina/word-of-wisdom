@@ -8,14 +8,14 @@ import (
 	"net"
 )
 
-func SendMessage(conn net.Conn, messageType string, rawPayload any) error {
+func SendMessage(conn net.Conn, messageType string, rawPayload json.Marshaler) error {
 	log.Printf("sending message with type %v and payload %+v", messageType, rawPayload)
 
 	var payload []byte
 	var err error
 
 	if rawPayload != nil {
-		payload, err = json.Marshal(rawPayload)
+		payload, err = rawPayload.MarshalJSON()
 		if err != nil {
 			return fmt.Errorf("failed to marshal payload: %w", err)
 		}
@@ -26,7 +26,7 @@ func SendMessage(conn net.Conn, messageType string, rawPayload any) error {
 		Payload: payload,
 	}
 
-	data, err := json.Marshal(message)
+	data, err := message.MarshalJSON()
 	if err != nil {
 		return fmt.Errorf("failed to marshal message: %w", err)
 	}

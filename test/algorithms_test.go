@@ -1,9 +1,11 @@
 package test
 
 import (
+	cryptorand "crypto/rand"
 	"crypto/sha1"
 	"crypto/sha256"
 	"fmt"
+	"log"
 	"math/rand"
 	"testing"
 	"time"
@@ -18,7 +20,8 @@ func Test_Algorithms(t *testing.T) {
 		var p1, p2, p1max, p2max int
 
 		for k := 0; k < n; k++ {
-			serverString := generateRandomString(lenServerString)
+			//serverString := generateRandomString(lenServerString)
+			serverString := generateCryptoRandomString(lenServerString)
 
 			// log.Printf("%v = %s", k, serverString)
 
@@ -89,7 +92,25 @@ func generateRandomString(lenStr int) string {
 	return str
 }
 
+func generateCryptoRandomString(lenStr int) string {
+	numberSymbols := len(symbols)
+
+	b := make([]byte, lenStr)
+	_, err := cryptorand.Read(b)
+	if err != nil {
+		log.Panicf("failed to generate crypto random string: %v", err)
+	}
+
+	for i := 0; i < lenStr; i++ {
+		b[i] = symbols[int(b[i])%numberSymbols]
+	}
+
+	return string(b)
+}
+
 /*
+server use math random string
+
 len(server string) = 10
 sha1:
 total time 13.285327532s,
@@ -129,7 +150,50 @@ sha2:
 total time 23.058677067s,
 avg time: 1.152933853s, avg attempts: 1201996
 max time 3.576479828s, max attempts: 3801497
---- PASS: Test_Algorithms (149.71s)
+
+----------------------------------------------
+server with crypto random string
+
+len(server string) = 10
+sha1:
+total time 20.157700171s
+avg time: 1.007885008s, avg attempts: 1265194
+max time 1.911019028s, max attempts: 2395878
+sha2:
+total time 17.788611549s,
+avg time: 889.430577ms, avg attempts: 986078
+max time 2.981962963s, max attempts: 3316071
+
+len(server string) = 20
+sha1:
+total time 20.524635039s
+avg time: 1.026231751s, avg attempts: 1289050
+max time 3.197455266s, max attempts: 3980192
+sha2:
+total time 19.90203154s,
+avg time: 995.101577ms, avg attempts: 1102771
+max time 3.305920116s, max attempts: 3543721
+
+len(server string) = 30
+sha1:
+total time 9.289645263s
+avg time: 464.482263ms, avg attempts: 514465
+max time 1.776464496s, max attempts: 1955421
+sha2:
+total time 18.178265629s,
+avg time: 908.913281ms, avg attempts: 907003
+max time 3.09441582s, max attempts: 3142921
+
+len(server string) = 40
+sha1:
+total time 28.616928959s
+avg time: 1.430846447s, avg attempts: 1540290
+max time 5.693704704s, max attempts: 6167108
+sha2:
+total time 19.143146638s,
+avg time: 957.157331ms, avg attempts: 915471
+max time 3.448553128s, max attempts: 3329996
+--- PASS: Test_Algorithms (153.60s)
 PASS
 
 Process finished with the exit code 0

@@ -2,7 +2,6 @@ package tcp
 
 import (
 	"bufio"
-	"encoding/json"
 	"fmt"
 	"github.com/sidyakina/word-of-wisdom/pkg/server/api"
 	messagetype "github.com/sidyakina/word-of-wisdom/pkg/server/message-type"
@@ -49,7 +48,7 @@ func (s *Server) handleConnection(conn net.Conn) {
 		rawMessage := scanner.Bytes()
 
 		message := api.Message{}
-		err := json.Unmarshal(rawMessage, &message)
+		err := message.UnmarshalJSON(rawMessage)
 		if err != nil {
 			log.Printf("failed to unmarshal request %s: %v", message, err)
 

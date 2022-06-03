@@ -7,9 +7,9 @@ import (
 )
 
 type Config struct {
-	TCPServerAddress      string        `env:"TCP_SERVER_ADDRESS"`
-	WaitingMessageTimeout time.Duration `env:"WAITING_MESSAGE_TIMEOUT" envDefault:"2s"`
-	NumberQuotes          int           `env:"NUMBER_QUOTES" envDefault:"1"`
+	TCPServerAddress string        `env:"TCP_SERVER_ADDRESS"`
+	ReadTimeout      time.Duration `env:"READ_TIMEOUT" envDefault:"2s"`
+	NumberQuotes     int           `env:"NUMBER_QUOTES" envDefault:"1"`
 }
 
 func parseConfig() (*Config, error) {
@@ -28,8 +28,8 @@ func parseConfig() (*Config, error) {
 		return nil, fmt.Errorf("wrong number quotes %v", cfg.NumberQuotes)
 	}
 
-	if cfg.WaitingMessageTimeout <= 0 {
-		return nil, fmt.Errorf("wrong timeout %v", cfg.WaitingMessageTimeout)
+	if cfg.ReadTimeout <= 0 {
+		return nil, fmt.Errorf("wrong timeout %v", cfg.ReadTimeout)
 	}
 
 	return cfg, nil

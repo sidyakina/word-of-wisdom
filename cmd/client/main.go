@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/sidyakina/word-of-wisdom/internal/client/tcp"
 	"log"
+	"math/rand"
+	"time"
 )
 
 func main() {
@@ -11,5 +13,7 @@ func main() {
 		log.Panicf("failed to parse config: %v", err)
 	}
 
-	tcp.GetQuotes(cfg.TCPServerAddress, cfg.WaitingMessageTimeout, cfg.NumberQuotes)
+	rand.Seed(time.Now().UnixNano())
+
+	tcp.GetQuotes(cfg.TCPServerAddress, cfg.ReadTimeout, cfg.NumberQuotes)
 }

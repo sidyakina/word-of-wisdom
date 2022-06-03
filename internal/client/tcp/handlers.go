@@ -13,7 +13,7 @@ import (
 func (c *Client) handleChallengeRequest(requestPayload json.RawMessage) error {
 	payload := api.ChallengeRequestPayload{}
 
-	err := json.Unmarshal(requestPayload, &payload)
+	err := payload.UnmarshalJSON(requestPayload)
 	if err != nil {
 		return fmt.Errorf("failed to unmarshal challenge request %s: %w", requestPayload, err)
 	}
@@ -36,7 +36,7 @@ func (c *Client) handleChallengeRequest(requestPayload json.RawMessage) error {
 func (c *Client) handleGetQuoteResponse(responsePayload json.RawMessage) error {
 	payload := api.GetQuoteResponse{}
 
-	err := json.Unmarshal(responsePayload, &payload)
+	err := payload.UnmarshalJSON(responsePayload)
 	if err != nil {
 		return fmt.Errorf("failed to unmarshal get quote response %s: %w", responsePayload, err)
 	}

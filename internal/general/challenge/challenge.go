@@ -1,6 +1,7 @@
 package challenge
 
 import (
+	cryptorand "crypto/rand"
 	"crypto/sha256"
 	"fmt"
 	"log"
@@ -18,7 +19,7 @@ func NewChallenge(str string) Challenge {
 }
 
 func GenerateNewChallenge() Challenge {
-	return Challenge{Challenge: generateRandomString(lenChallengeString)}
+	return Challenge{Challenge: generateCryptoRandomString(lenChallengeString)}
 }
 
 func (c *Challenge) FindAnswer() (string, error) {
@@ -103,4 +104,22 @@ func generateRandomString(lenStr int) string {
 	}
 
 	return str
+}
+
+func generateCryptoRandomString(lenStr int) string {
+	numberSymbols := len(symbols)
+
+	b := make([]byte, lenStr)
+	_, err := cryptorand.Read(b)
+	if err != nil {
+		log.Printf("failed to generate crypto random string, use math random string")
+
+		return generateRandomString(lenStr)
+	}
+
+	for i := 0; i < lenStr; i++ {
+		b[i] = symbols[int(b[i])%numberSymbols]
+	}
+
+	return string(b)
 }
